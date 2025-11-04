@@ -59,6 +59,15 @@
       "semicolons": "asNeeded"
     }
   },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on"
+        }
+      }
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {

@@ -15,8 +15,8 @@
     "playwright:install": "playwright install --with-deps"
   },
   "devDependencies": {
-    "@playwright/test": "workspace:*",
-    "vitest": "workspace:*",
-    "@vitest/browser": "workspace:*"
+    "@playwright/test": "^1.56.1",
+    "vitest": "^4.0.6",
+    "@vitest/browser": "^4.0.6"
   }
 }

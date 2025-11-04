@@ -1,8 +1,8 @@
 {
   "private": false,
-  "name": "@sample/common-utils",
+  "name": "@sample/visual-diff",
   "version": "0.1.0",
-  "description": "Demo library that contains common utility functions",
+  "description": "Visual regression testing utility for comparing screenshots using monochrome conversion",
   "repository": "https://github.com/sample/pnpm-monorepo-template.git",
   "author": {
     "name": "Sample Author",
@@ -15,7 +15,6 @@
   "main": "./build/index.js",
   "module": "./build/index.mjs",
   "types": "./build/index.d.ts",
-  "__exports-comment": "// Define output files for Node.js export maps (https://nodejs.org/api/packages.html#exports)",
   "exports": {
     ".": {
       "import": {
@@ -38,7 +37,14 @@
     "build:watch": "pnpm build --watch",
     "check:exports": "attw --pack .",
     "test": "vitest run",
-    "test:unit": "vitest --project unit run",
-    "test:integration": "vitest --project integration run"
+    "test:unit": "vitest --project unit run"
+  },
+
+  "dependencies": {
+    "sharp": "^0.33.5"
+  },
+
+  "devDependencies": {
+    "vitest": "^4.0.6"
   }
 }

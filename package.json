@@ -1,12 +1,12 @@
 {
   "private": true,
   "type": "module",
-  "name": "@jkomyno/pnpm-monorepo-example",
+  "name": "@sample/pnpm-monorepo-template",
   "description": "Practical example of a `TypeScript` monorepo with `pnpm`, `turborepo`, and `vitest`",
-  "repository": "https://github.com/jkomyno/pnpm-monorepo-example.git",
+  "repository": "https://github.com/sample/pnpm-monorepo-template.git",
   "author": {
-    "name": "Alberto Schiabel",
-    "email": "alberto.schiabel@gmail.com"
+    "name": "Sample Author",
+    "email": "author@example.com"
   },
   "license": "MIT",
   "engines": {
@@ -22,13 +22,19 @@
     "test": "pnpm -r --if-present test",
     "test:unit": "pnpm -r --if-present test:unit",
     "test:integration": "pnpm -r --if-present test:integration",
-    "prepare": "is-ci || husky"
+    "test:coverage": "vitest run --coverage",
+    "prepare": "is-ci || husky",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm build && changeset publish"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
     "@biomejs/biome": "^2.3.3",
+    "@changesets/cli": "^2.29.7",
     "@playwright/test": "^1.56.1",
     "@types/node": "^24.10.0",
+    "@vitest/coverage-v8": "^4.0.6",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
     "lint-staged": "^16.2.6",
@@ -46,5 +52,10 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
+  },
+  "pnpm": {
+    "overrides": {
+      "source-map@0.8.0-beta.0": "^0.7.6"
+    }
   }
 }

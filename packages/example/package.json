@@ -1,11 +1,11 @@
 {
   "private": true,
-  "name": "@jkomyno/example",
+  "name": "@sample/example",
   "version": "0.1.0",
   "description": "Demo example that imports a local package",
   "author": {
-    "name": "Alberto Schiabel",
-    "email": "alberto.schiabel@gmail.com"
+    "name": "Sample Author",
+    "email": "author@example.com"
   },
   "main": "./src/index.ts",
   "scripts": {
@@ -13,6 +13,6 @@
     "test:unit": "vitest --project unit run"
   },
   "dependencies": {
-    "@jkomyno/common-utils": "workspace:*"
+    "@sample/common-utils": "workspace:*"
   }
 }
