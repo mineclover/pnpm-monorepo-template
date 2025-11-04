@@ -128,7 +128,61 @@ pnpm test
 
 ## FAQ
 
-### 1. 새로운 패키지를 workspace에 추가하려면?
+### 1. 워크스페이스 간 패키지 사용 방법
+
+다른 패키지에서 로컬 패키지를 사용하려면:
+
+#### 1단계: 의존성 추가
+
+사용하려는 패키지의 `package.json`에 의존성을 추가합니다:
+
+```json
+{
+  "dependencies": {
+    "@sample/common-utils": "workspace:*"
+  }
+}
+```
+
+`workspace:*`는 워크스페이스 내 최신 버전을 항상 사용한다는 의미입니다.
+
+#### 2단계: 소스 패키지 빌드
+
+사용하려는 패키지를 먼저 빌드해야 합니다:
+
+```bash
+pnpm --filter @sample/common-utils build
+```
+
+#### 3단계: 패키지 import 및 사용
+
+이제 TypeScript/JavaScript 파일에서 사용할 수 있습니다:
+
+```typescript
+import { sum } from '@sample/common-utils'
+
+const result = sum([1, 2, 3]) // 6
+```
+
+#### 주의사항
+
+- 로컬 패키지를 사용하기 전 반드시 빌드해야 합니다
+- 소스 패키지가 변경되면 다시 빌드가 필요합니다
+- `@sample/source` 조건을 사용하면 빌드 없이 소스를 직접 참조할 수 있습니다 (개발 모드)
+
+#### 전체 예제
+
+[`packages/example`](packages/example) 패키지가 [`packages/common-utils`](packages/common-utils)를 사용하는 실제 예제입니다:
+
+```bash
+# common-utils 빌드
+pnpm --filter @sample/common-utils build
+
+# example 실행
+pnpm exec tsx packages/example/src/index.ts
+```
+
+### 2. 새로운 패키지를 workspace에 추가하려면?
 
 1. [`packages/`](packages/) 폴더에 `$packageName` 생성
 2. `tsconfig.json` 파일 생성 (루트의 [`tsconfig.base.node.json`](./tsconfig.base.node.json) 참조)
@@ -136,13 +190,13 @@ pnpm test
 4. 패키지의 환경(Node.js, Browser, Cross Platform)을 명확히 정의
 5. Zod 스키마를 사용하여 타입 정의
 
-### 2. 모든 패키지에서 사용할 의존성을 추가하려면?
+### 3. 모든 패키지에서 사용할 의존성을 추가하려면?
 
 ```bash
 pnpm add -w $dependencyName
 ```
 
-### 3. Git 서브모듈로 패키지를 관리하려면?
+### 4. Git 서브모듈로 패키지를 관리하려면?
 
 ```bash
 # 기존 패키지를 서브모듈로 변환
@@ -152,7 +206,7 @@ git submodule add <repository-url> packages/$packageName
 git submodule update --remote packages/$packageName
 ```
 
-### 4. Zod를 사용한 타입 시스템 구성은?
+### 5. Zod를 사용한 타입 시스템 구성은?
 
 각 패키지에서 Zod 스키마를 정의하고 `z.infer`를 통해 TypeScript 타입을 추론합니다:
 

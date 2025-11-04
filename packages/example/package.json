@@ -10,7 +10,7 @@
   "main": "./src/index.ts",
   "scripts": {
     "clean": "rimraf build .turbo",
-    "test:unit": "vitest --project unit run"
+    "test:unit": "vitest --project example run"
   },
   "dependencies": {
     "@sample/common-utils": "workspace:*"
