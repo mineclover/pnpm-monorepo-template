@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.3/schema.json",
   "formatter": {
     "enabled": true,
     "indentWidth": 2,
@@ -8,12 +8,17 @@
   },
   // Note: UNIX-like glob patterns {a,b,c} aren't supported yet.
   "files": {
-    "ignore": ["./**/node_modules/**", "./public/**", "./build/**", "**/.turbo/**"],
-    "include": ["./app/**/", "./*.ts", "./*.js", "./*.json", "./*.jsonc"]
+    "ignoreUnknown": true
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true,
+    "defaultBranch": "main"
   },
   "overrides": [
     {
-      "include": ["./**/tsconfig.*.json"],
+      "includes": ["./**/tsconfig.*.json"],
       "json": {
         "parser": {
           "allowComments": true,
@@ -25,7 +30,7 @@
       }
     },
     {
-      "include": ["./turbo.json"],
+      "includes": ["./turbo.json"],
       "json": {
         "parser": {
           "allowComments": true,
@@ -37,7 +42,6 @@
       }
     }
   ],
-  "organizeImports": { "enabled": true },
   "javascript": {
     "globals": [
       "React",
@@ -50,9 +54,6 @@
       "it",
       "expect"
     ],
-    "linter": {
-      "enabled": true
-    },
     "formatter": {
       "quoteStyle": "single",
       "semicolons": "asNeeded"
@@ -64,11 +65,9 @@
       "recommended": true,
       "complexity": {
         "noExtraBooleanCast": "error",
-        "noMultipleSpacesInRegularExpressionLiterals": "error",
+        "noAdjacentSpacesInRegex": "error",
         "noUselessCatch": "error",
-        "noWith": "error",
-        "noStaticOnlyClass": "off",
-        "noBannedTypes": "off"
+        "noStaticOnlyClass": "off"
       },
       "nursery": {
         "useSortedClasses": "error"
@@ -85,7 +84,7 @@
         "noGlobalObjectCalls": "error",
         "noInnerDeclarations": "error",
         "noInvalidConstructorSuper": "error",
-        "noNewSymbol": "error",
+        "noInvalidBuiltinInstantiation": "error",
         "noNonoctalDecimalEscape": "error",
         "noPrecisionLoss": "error",
         "noSelfAssign": "error",
@@ -125,8 +124,7 @@
         "noRedeclare": "error",
         "noShadowRestrictedNames": "error",
         "noUnsafeNegation": "error",
-        "useGetterReturn": "error",
-        "useValidTypeof": "error"
+        "useGetterReturn": "error"
       }
     }
   }

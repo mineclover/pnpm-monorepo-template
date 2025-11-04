@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.base.node.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "@playwright/test"]
+  },
+  "include": ["src/**/*", "__tests__/**/*", "e2e/**/*"]
+}

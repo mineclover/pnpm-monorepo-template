@@ -1,0 +1,12 @@
+node_modules
+dist
+*.log
+
+# Playwright
+playwright-report/
+test-results/
+playwright/.cache/
+
+# Visual regression test artifacts
+e2e/__screenshots__/**/*-actual.png
+e2e/__screenshots__/**/*-diff.png

@@ -1,0 +1,22 @@
+{
+  "name": "@template/web-e2e-template",
+  "version": "0.0.1",
+  "description": "Web E2E and Visual Regression Testing Template with Vitest Browser Mode and Playwright",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "vitest run && playwright test",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:visual": "playwright test --grep @visual",
+    "test:watch": "vitest",
+    "playwright:install": "playwright install --with-deps"
+  },
+  "devDependencies": {
+    "@playwright/test": "workspace:*",
+    "vitest": "workspace:*",
+    "@vitest/browser": "workspace:*"
+  }
+}
