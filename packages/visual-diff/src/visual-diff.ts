@@ -63,12 +63,16 @@ export async function convertToMonochromeB(
  * @param monochromeA - Reference monochrome image (from convertToMonochromeA)
  * @param monochromeB - Screenshot monochrome image (from convertToMonochromeB)
  * @param threshold - Optional threshold percentage (0-100, default: 0)
+ * @param onlyShowDifferences - If true, only show colored differences (default: false)
+ * @param colorThreshold - Minimum RGB value to consider a pixel as colored (default: 30)
  * @returns Visual diff result including match status and diff image
  */
 export async function compareMonochromeImages(
   monochromeA: MonochromeImage,
   monochromeB: MonochromeImage,
   threshold = 0,
+  onlyShowDifferences = false,
+  colorThreshold = 30,
 ): Promise<VisualDiffResult> {
   const { grayscaleBuffer: gray1, color: color1, width: width1, height: height1 } = monochromeA
   const { grayscaleBuffer: gray2, color: color2, width: width2, height: height2 } = monochromeB
@@ -107,20 +111,36 @@ export async function compareMonochromeImages(
       const b2 = Math.round(color2.b * intensity2)
 
       // Overlay the monochrome colors
-      overlayPixels[pixelIndex] = Math.min(255, r1 + r2)
-      overlayPixels[pixelIndex + 1] = Math.min(255, g1 + g2)
-      overlayPixels[pixelIndex + 2] = Math.min(255, b1 + b2)
+      const finalR = Math.min(255, r1 + r2)
+      const finalG = Math.min(255, g1 + g2)
+      const finalB = Math.min(255, b1 + b2)
+
+      overlayPixels[pixelIndex] = finalR
+      overlayPixels[pixelIndex + 1] = finalG
+      overlayPixels[pixelIndex + 2] = finalB
     } else {
-      // For matching pixels, create a grayscale representation
-      overlayPixels[pixelIndex] = grayValue1
-      overlayPixels[pixelIndex + 1] = grayValue1
-      overlayPixels[pixelIndex + 2] = grayValue1
+      // For matching pixels
+      if (onlyShowDifferences) {
+        // Make matching pixels transparent/black
+        overlayPixels[pixelIndex] = 0
+        overlayPixels[pixelIndex + 1] = 0
+        overlayPixels[pixelIndex + 2] = 0
+      } else {
+        // Create a grayscale representation
+        overlayPixels[pixelIndex] = grayValue1
+        overlayPixels[pixelIndex + 1] = grayValue1
+        overlayPixels[pixelIndex + 2] = grayValue1
+      }
     }
   }
 
   // Calculate difference percentage
   const totalPixels = width * height
   const differencePercentage = (differentPixelCount / totalPixels) * 100
+
+  // Calculate colored area percentage: simply use differentPixelCount
+  // This represents the actual area where differences exist
+  const coloredAreaPercentage = differencePercentage
 
   // Create diff image buffer
   const diffImageBuffer = await sharp(overlayPixels, {
@@ -139,6 +159,7 @@ export async function compareMonochromeImages(
     differentPixelCount,
     diffImageBuffer,
     dimensions: { width, height },
+    coloredAreaPercentage,
   }
 }
 
@@ -154,12 +175,18 @@ export async function compareImages(
   screenshotImage: Buffer,
   options: VisualDiffOptions = {},
 ): Promise<VisualDiffResult> {
-  const { threshold = 0, color1 = DEFAULT_COLOR_A, color2 = DEFAULT_COLOR_B } = options
+  const {
+    threshold = 0,
+    color1 = DEFAULT_COLOR_A,
+    color2 = DEFAULT_COLOR_B,
+    onlyShowDifferences = false,
+    colorThreshold = 30,
+  } = options
 
   const monochromeA = await convertToMonochromeA(referenceImage, color1)
   const monochromeB = await convertToMonochromeB(screenshotImage, color2)
 
-  return compareMonochromeImages(monochromeA, monochromeB, threshold)
+  return compareMonochromeImages(monochromeA, monochromeB, threshold, onlyShowDifferences, colorThreshold)
 }
 
 /**

@@ -289,3 +289,6 @@ build/
 
 # Build cache manifests
 *.tsbuildinfo
+
+# Test results
+__test_results__/
