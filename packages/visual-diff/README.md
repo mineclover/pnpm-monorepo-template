@@ -17,7 +17,95 @@ This package provides a visual comparison tool that uses a unique monochrome ove
 pnpm add @template/visual-diff
 ```
 
-## Usage
+## CLI Usage
+
+The package provides a command-line interface for quick image comparisons.
+
+### Commands
+
+#### `compare`
+Compare two images and generate a full diff image with grayscale background.
+
+```bash
+visual-diff compare -a <reference-image> -b <screenshot-image> [options]
+```
+
+**Options:**
+- `-a, --image-a <path>` - Path to the first image (reference) [required]
+- `-b, --image-b <path>` - Path to the second image (screenshot) [required]
+- `-o, --output <path>` - Output path for diff image (default: `./diff-output.png`)
+- `-t, --threshold <number>` - Threshold for considering images as matching (0-100) (default: `0`)
+- `--color-a <r,g,b>` - RGB color for image A (default: `255,0,0`)
+- `--color-b <r,g,b>` - RGB color for image B (default: `0,255,0`)
+- `--color-threshold <number>` - Minimum RGB threshold for colored pixels (0-255) (default: `30`)
+
+**Example:**
+```bash
+visual-diff compare -a reference.png -b screenshot.png -o diff.png
+```
+
+#### `compare-diff`
+Compare two images and generate a diff image showing only the differences (no grayscale background).
+
+```bash
+visual-diff compare-diff -a <reference-image> -b <screenshot-image> [options]
+```
+
+**Options:**
+Same as `compare` command.
+
+**Example:**
+```bash
+visual-diff compare-diff -a reference.png -b screenshot.png -o diff-only.png
+```
+
+### Output Files
+
+Both commands generate two output files:
+- **Image file** (`.png`) - Visual diff image
+- **Text file** (`.txt`) - Comparison results report
+
+**Text report includes:**
+- Match result (YES/NO)
+- Difference percentage
+- Different pixel count
+- Colored area percentage
+- Image dimensions
+- Output image path
+
+### CLI Examples
+
+**Basic comparison:**
+```bash
+visual-diff compare -a samples/A.png -b samples/B.png
+# Outputs: diff-output.png, diff-output.txt
+```
+
+**Custom output path:**
+```bash
+visual-diff compare -a ref.png -b test.png -o results/my-diff.png
+# Outputs: results/my-diff.png, results/my-diff.txt
+```
+
+**Only show differences:**
+```bash
+visual-diff compare-diff -a ref.png -b test.png -o diff-only.png
+# Outputs: diff-only.png, diff-only.txt
+```
+
+**With custom colors:**
+```bash
+visual-diff compare -a ref.png -b test.png --color-a 0,0,255 --color-b 255,255,0
+# Blue for reference, yellow for screenshot
+```
+
+**With threshold:**
+```bash
+visual-diff compare -a ref.png -b test.png -t 0.5
+# Allow up to 0.5% difference
+```
+
+## Programmatic Usage
 
 ### Simple API (All-in-One)
 

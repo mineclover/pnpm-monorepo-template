@@ -2,6 +2,7 @@
   "private": false,
   "name": "@sample/visual-diff",
   "version": "0.1.0",
+  "type": "module",
   "description": "Visual regression testing utility for comparing screenshots using monochrome conversion",
   "repository": "https://github.com/sample/pnpm-monorepo-template.git",
   "author": {
@@ -9,9 +10,12 @@
     "email": "author@example.com"
   },
   "files": [
-    "build"
+    "build",
+    "cli"
   ],
-
+  "bin": {
+    "visual-diff": "./cli/cli.js"
+  },
   "main": "./build/index.js",
   "module": "./build/index.mjs",
   "types": "./build/index.d.ts",
@@ -30,7 +34,6 @@
     },
     "./package.json": "./package.json"
   },
-
   "scripts": {
     "clean": "rimraf build .turbo",
     "build": "tsup ./src/index.ts --tsconfig ./tsconfig.build.json --config ../../tsup.config.ts",
@@ -39,12 +42,13 @@
     "test": "vitest run",
     "test:unit": "vitest --project unit run"
   },
-
   "dependencies": {
+    "commander": "^14.0.2",
     "sharp": "^0.33.5"
   },
-
   "devDependencies": {
+    "@types/node": "^24.10.0",
+    "tsx": "^4.20.6",
     "vitest": "^4.0.6"
   }
 }
