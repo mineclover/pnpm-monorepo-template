@@ -38,7 +38,6 @@
     "clean": "rimraf build .turbo",
     "build": "tsup ./src/index.ts --tsconfig ./tsconfig.build.json --config ../../tsup.config.ts",
     "build:watch": "pnpm build --watch",
-    "check:exports": "attw --pack .",
     "test": "vitest run",
     "test:unit": "vitest --project unit run"
   },
